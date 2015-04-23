@@ -1,0 +1,64 @@
+@(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+      <!-- Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!-- Title -->
+    <title>@Messages("application.name")</title>
+
+      <!-- Icons -->
+    <link rel="shortcut icon" type="image/ico"
+    href="@routes.Assets.at("images/favicon.ico")">
+
+      <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,500,300"
+    rel="stylesheet" >
+
+      <!-- Stylesheet -->
+    <link rel="stylesheet" media="screen"
+    href="@routes.Assets.at("stylesheets/main.css")">
+    <script type='text/javascript'
+    src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
+
+  </head>
+
+  <body>
+
+      <!-- Toolbar / appbar-->
+    <header class="toolbar title">
+
+      <img class="icon" src="@routes.Assets.at("images/favicon.ico")">
+    </header>
+
+      <!-- Bottom sheet -->
+    <div class="bottom-sheet">
+
+      <div class="c12">
+        <div class="card">
+          <div class="card-title headline red text-white">
+            Card title
+          </div>
+          <div class="card-text body1">
+            Card text
+          </div>
+          <div class="card-action body2">
+            Card action
+          </div>
+        </div>
+      </div>
+
+      <div class="button-incline">
+        <input type="button" class="button-flat" value="BUTTON1">
+      </div>
+
+        <!-- Content -->
+      @content
+
+    </div>
+  </body>
+
+</html>

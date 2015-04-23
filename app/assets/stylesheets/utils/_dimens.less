@@ -1,0 +1,59 @@
+//
+// Column
+//
+.generate-columns(12);
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .c@{i} {
+    width: (@i * 100% / @n);
+  }
+  .generate-columns(@n, (@i + 1));
+}
+
+//
+// Icon
+//
+@icon-padding: 6px;
+
+//
+// Bottom sheet
+//
+@bottom-sheet-padding-mobile: 16px;
+@bottom-sheet-padding-tablet-desktop: 24px;
+
+//
+// Toolbar
+//
+@toolbar-height-mobile-land: 48px;
+@toolbar-height-mobile-port: 56px;
+@toolbar-height-tablet-desktop: 64px;
+
+@toolbar-width: 100%;
+
+@toolbar-padding-mobile: 16px;
+@toolbar-padding-tablet-desktop: 24px;
+
+//
+// Button
+//
+@button-incline-height: 48px;
+@button-incline-padding: 12px;
+
+@button-raised-height: 36px;
+@button-raised-padding: 12px;
+@button-raised-min-width: 64px;
+
+@button-flat-height: 36px;
+@button-flat-padding: 12px;
+@button-flat-min-width: 64px;
+
+@button-dropdown-padding: 16px;
+
+//
+// Card
+//
+@card-border-radius: 2px;
+@card-title-padding: 24px;
+@card-action-padding: 8px;
+@card-text-padding: 16px;
+@card-border: 8px;

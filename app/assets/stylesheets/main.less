@@ -1,0 +1,65 @@
+@import "utils/_colors.less";
+@import "utils/_dimens.less";
+@import "utils/_fonts.less";
+@import "structures/_toolbar.less";
+@import "components/_button.less";
+@import "components/_card.less";
+@import "components/_bottom-sheet.less";
+@import "components/_icon.less";
+
+html {
+  line-height: 2;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  background-color: @grey_lighten_2;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0px;
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait) {
+  .toolbar;
+}
+
+@media only screen and (max-width: 600px) and (orientation: landscape) {
+  .toolbar {
+    height: @toolbar-height-mobile-land;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 992px) and (orientation: portrait) {
+  .toolbar {
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 992px) and (orientation: landscape) {
+  .toolbar {
+    height: @toolbar-height-mobile-land;
+  }
+}
+
+@media only screen and (min-width: 993px) and (orientation: portrait) {
+  .toolbar {
+    padding: @toolbar-padding-tablet-desktop;
+    height: @toolbar-height-tablet-desktop;
+  }
+
+  .bottom-sheet {
+    padding: @bottom-sheet-padding-tablet-desktop + @icon-padding;
+  }
+}
+
+@media only screen and (min-width: 993px) and (orientation: landscape) {
+  .toolbar {
+    padding: @toolbar-padding-tablet-desktop;
+    height: @toolbar-height-tablet-desktop;
+  }
+
+  .bottom-sheet {
+    padding: @bottom-sheet-padding-tablet-desktop + @icon-padding;
+  }
+}
+
