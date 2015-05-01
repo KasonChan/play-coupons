@@ -1,4 +1,4 @@
-# PlayCoupons #
+# PlayCoupons (Under Construction)#
 
 An web application covers some of the basic use cases for the coupon 
 product, BluePromoCode, and makes use of their RESTful API endpoints.
@@ -9,8 +9,7 @@ Your mission is to write an app with the following screens:
 
 ![](design/coupons.png) ![](design/login.png)
 
-Use the [design](design) folder for guidance, we would like you to focus on how 
-the app works more so than how it looks.
+The [design](design) folder for guidance.
 
 1. Coupons:
   - Show coupons from our REST API
@@ -38,7 +37,6 @@ the app works more so than how it looks.
 ### Developing ###
 
 This application is written in Scala with Play Framework, using IntelliJ IDEA.
-It is still under construction.
 
 ### Running the code locally ###
 
