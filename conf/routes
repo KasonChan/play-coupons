@@ -5,6 +5,9 @@
 # Home login page
 GET        /                    controllers.Application.login
 
+# Coupons page
+GET        /coupons             controllers.Coupons.list
+
 # Signup page
 GET        /signup              controllers.Application.signup
 

@@ -1,0 +1,23 @@
+@(coupons: Seq[Coupon])
+
+@main {
+
+  @for(coupon <- coupons) {
+    <div class="card">
+      <div class="card-title blue text-white">
+      @coupon.merchant.name
+      </div>
+      <div class="card-text body1">
+        @if(coupon.savings.amountOff) { $@coupon.savings.amountOff Off }
+        @if(coupon.savings.percentOff) {
+          @coupon.savings.percentOff% Off }
+        @coupon.savings.types.mkString(", ")
+      </div>
+      <div class="card-action body2">
+        Card action
+      </div>
+    </div>
+  }
+
+}
+
