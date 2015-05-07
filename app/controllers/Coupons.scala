@@ -1,7 +1,6 @@
 package controllers
 
 import models.Coupon
-import models.http.HTTP
 import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -14,12 +13,10 @@ object Coupons extends Controller {
 
   /**
    * List
-   *
    * Performs get request
    * If the request is successful and valid, a list of coupons is returned and
    * be shown
    * Otherwise, none will be returned and error message will be shown
-   *
    * @return Action[AnyContent]
    */
   def list: Action[AnyContent] = Action.async {

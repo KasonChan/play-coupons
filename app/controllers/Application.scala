@@ -1,7 +1,7 @@
 package controllers
 
 import play.Logger
-import play.api.mvc._
+import play.api.mvc.{Action, AnyContent, Controller}
 
 import scala.concurrent.Future
 
@@ -9,9 +9,7 @@ object Application extends Controller {
 
   /**
    * Login
-   *
    * Shows the login page
-   *
    * @return Action[AnyContent]
    */
   def login: Action[AnyContent] = Action.async {
@@ -21,9 +19,7 @@ object Application extends Controller {
 
   /**
    * Signup
-   *
    * Shows the sign up page
-   *
    * @return Action[AnyContent]
    */
   def signup: Action[AnyContent] = Action.async {

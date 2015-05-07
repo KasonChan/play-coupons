@@ -1,7 +1,7 @@
 package controllers
 
-import models.{SignupUser, Meta, User}
-import play.api.mvc.{AnyContent, Action, Controller}
+import models.{Meta, SignupUser, User}
+import play.api.mvc.{Action, AnyContent, Controller}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -13,7 +13,6 @@ object Users extends Controller {
 
   /**
    * Sign in
-   *
    * This function first get the username and password from the form
    * These information are then wrapped in user case class
    * Post request with the url and user case class

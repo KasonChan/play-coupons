@@ -23,16 +23,34 @@ case class Coupon(savings: Savings, merchant: Merchant)
 
 object Coupon extends HTTP {
 
+  /**
+   * Savings
+   * Retrieves savings amount off, percent off and types if any
+   * @param c JsObject
+   * @return Savings
+   */
   private def savings(c: JsObject): Savings = {
     Savings(((c \ "savings").as[JsObject] \ "amountOff").asOpt[Double],
       ((c \ "savings").as[JsObject] \ "percentOff").asOpt[Double],
       ((c \ "savings").as[JsObject] \ "types").as[Seq[String]])
   }
 
+  /**
+   * Logo
+   * Retrieves logo
+   * @param c JsObject
+   * @return JsObject
+   */
   private def logo(c: JsObject): JsObject = {
     ((c \ "merchant").as[JsObject] \ "logo").as[JsObject]
   }
 
+  /**
+   * Merchant
+   * Retrieves merchant name and logo
+   * @param c JsObject
+   * @return Merchant
+   */
   private def merchant(c: JsObject): Merchant = {
     val l: JsObject = logo(c)
 
@@ -42,13 +60,11 @@ object Coupon extends HTTP {
 
   /**
    * Findall
-   *
    * Performs get request with the parameter url
    * Parses the response body
    * Extract the coupons information
    * If everything is valid, findall will return the sequence of coupon
    * Otherwise it will return None
-   *
    * @param url String
    * @return Future[Option[Seq[Coupon]]]
    */

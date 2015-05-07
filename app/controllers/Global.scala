@@ -1,8 +1,9 @@
 package controllers
 
 import play.api._
-import play.api.mvc._
 import play.api.mvc.Results._
+import play.api.mvc._
+
 import scala.concurrent.Future
 
 /**
@@ -10,20 +11,39 @@ import scala.concurrent.Future
  */
 object Global extends GlobalSettings {
 
+  /**
+   * On start
+   * Logs the start of the app
+   * @param app Application
+   */
   override def onStart(app: Application) =
     Logger.info("Application has started")
 
 
+  /**
+   * On stop
+   * Logs the stop of the app
+   * @param app Application
+   */
   override def onStop(app: Application) =
     Logger.info("Application shutdown...")
 
-
-  // 404 - page not found error
+  /**
+   * On handler not found
+   * Handles 404 page not found error
+   * @param request RequestHeader
+   * @return Future[SimpleResult]
+   */
   override def onHandlerNotFound(request: RequestHeader) =
     Future.successful(NotFound(views.html.global.notFound(Some(request.path))))
 
-
-  // 500 - internal server error
+  /**
+   * On Error
+   * Handles 500 internal server error
+   * @param request RequestHeader
+   * @param throwable Throwable
+   * @return Future[SimpleResult]
+   */
   override def onError(request: RequestHeader, throwable: Throwable) =
     Future.successful(InternalServerError(views.html.global.errors(Some(throwable))))
 

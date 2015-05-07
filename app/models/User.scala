@@ -25,29 +25,63 @@ case class SignupUser(fullname: String,
 
 object User extends Controller with HTTP {
 
+  /**
+   * Username
+   * Retrieves username
+   * @param u JsObject
+   * @return Option[String]
+   */
   private def username(u: JsObject): Option[String] = (u \ "username").asOpt[String]
 
+  /**
+   * Email
+   * Retrieves email
+   * @param u JsObject
+   * @return Option[String]
+   */
   private def email(u: JsObject): Option[String] = (u \ "email").asOpt[String]
 
+  /**
+   * Error
+   * Retrieves errors
+   * @param m JsObject
+   * @return Option[Boolean]
+   */
   private def error(m: JsObject): Option[Boolean] = (m \ "error").asOpt[Boolean]
 
+  /**
+   * Code
+   * Retrieves codes
+   * @param m JsObject
+   * @return Option[Int]
+   */
   private def code(m: JsObject): Option[Int] = (m \ "code").asOpt[Int]
 
+  /**
+   * User
+   * Retrieves user
+   * @param m JsObject
+   * @return Option[String]
+   */
   private def user(m: JsObject): Option[String] = (m \ "user").asOpt[String]
 
+  /**
+   * Meta
+   * Retrieves meta data including error, code and user
+   * @param m JsObject
+   * @return Meta
+   */
   private def meta(m: JsObject): Meta = Meta(error(m), code(m), user(m))
 
   /**
    * Find
-   *
    * Performs post request with url and user
    * If the user is valid, it will return the information of the user
    * If the user is invalid, it will return a meta data
    * Otherwise it will return none
-   *
-   * @param url
-   * @param user
-   * @return
+   * @param url String
+   * @param user User
+   * @return Future[Product with Serializable]
    */
   def find(url: String, user: User): Future[Product with Serializable] = {
     val apiFuture: Future[WSResponse] =
