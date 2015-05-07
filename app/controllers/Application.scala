@@ -28,7 +28,7 @@ object Application extends Controller {
    */
   def signup: Action[AnyContent] = Action.async {
     Logger.info("Signup")
-    Future.successful(Ok(views.html.signup()))
+    Future.successful(Ok(views.html.signup(None)))
   }
 
 }

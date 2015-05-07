@@ -4,6 +4,7 @@ login.email = Email
 login.password = Password
 login.submit = Login
 
+signup.fullname = Fullname
 signup.email = Email
 signup.password = Password
-signup.submit = Login
+signup.submit = Signup

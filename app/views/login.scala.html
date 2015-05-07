@@ -9,8 +9,9 @@
       </div>
     }
 
-    <form method="post" id="signin" action="@routes.Users.signin">
-        <!-- Username -->
+    <form method="post" id="signin" action="@routes.Users.signin()">
+
+        <!-- Email -->
       <input type="text" name="email" id="email"
       placeholder="@Messages("login.email")" maxlength="35" required>
 
@@ -20,5 +21,11 @@
 
         <!-- Submit -->
       <input type="submit" value="@Messages("login.submit")">
+
     </form>
+
+    <!-- Sign up -->
+    <a href="@routes.Application.signup()">
+      <input type="button" value="@Messages("signup.submit")">
+    </a>
   }

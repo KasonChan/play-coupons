@@ -11,11 +11,31 @@ import scala.concurrent.Future
 /**
  * Created by kasonchan on 5/5/15.
  */
-case class User(email: Option[String], password: Option[String], username: Option[String])
+case class User(email: Option[String],
+                password: Option[String],
+                username: Option[String])
 
-case class Meta(error: Option[Boolean], code: Option[Int], user: Option[String])
+case class Meta(error: Option[Boolean],
+                code: Option[Int],
+                user: Option[String])
+
+case class SignupUser(fullname: String,
+                      email: String,
+                      password: String)
 
 object User extends Controller with HTTP {
+
+  private def username(u: JsObject): Option[String] = (u \ "username").asOpt[String]
+
+  private def email(u: JsObject): Option[String] = (u \ "email").asOpt[String]
+
+  private def error(m: JsObject): Option[Boolean] = (m \ "error").asOpt[Boolean]
+
+  private def code(m: JsObject): Option[Int] = (m \ "code").asOpt[Int]
+
+  private def user(m: JsObject): Option[String] = (m \ "user").asOpt[String]
+
+  private def meta(m: JsObject): Meta = Meta(error(m), code(m), user(m))
 
   /**
    * Find
@@ -75,17 +95,5 @@ object User extends Controller with HTTP {
       }
     }
   }
-
-  private def username(u: JsObject): Option[String] = (u \ "username").asOpt[String]
-
-  private def email(u: JsObject): Option[String] = (u \ "email").asOpt[String]
-
-  private def error(m: JsObject): Option[Boolean] = (m \ "error").asOpt[Boolean]
-
-  private def code(m: JsObject): Option[Int] = (m \ "code").asOpt[Int]
-
-  private def user(m: JsObject): Option[String] = (m \ "user").asOpt[String]
-
-  private def meta(m: JsObject): Meta = Meta(error(m), code(m), user(m))
 
 }

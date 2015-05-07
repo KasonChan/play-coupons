@@ -23,6 +23,23 @@ case class Coupon(savings: Savings, merchant: Merchant)
 
 object Coupon extends HTTP {
 
+  private def savings(c: JsObject): Savings = {
+    Savings(((c \ "savings").as[JsObject] \ "amountOff").asOpt[Double],
+      ((c \ "savings").as[JsObject] \ "percentOff").asOpt[Double],
+      ((c \ "savings").as[JsObject] \ "types").as[Seq[String]])
+  }
+
+  private def logo(c: JsObject): JsObject = {
+    ((c \ "merchant").as[JsObject] \ "logo").as[JsObject]
+  }
+
+  private def merchant(c: JsObject): Merchant = {
+    val l: JsObject = logo(c)
+
+    Merchant(((c \ "merchant").as[JsObject] \ "name").as[String],
+      Logo((l \ "url").as[String]))
+  }
+
   /**
    * Findall
    *
@@ -71,23 +88,6 @@ object Coupon extends HTTP {
         }
       }
     }
-  }
-
-  private def savings(c: JsObject): Savings = {
-    Savings(((c \ "savings").as[JsObject] \ "amountOff").asOpt[Double],
-      ((c \ "savings").as[JsObject] \ "percentOff").asOpt[Double],
-      ((c \ "savings").as[JsObject] \ "types").as[Seq[String]])
-  }
-
-  private def logo(c: JsObject): JsObject = {
-    ((c \ "merchant").as[JsObject] \ "logo").as[JsObject]
-  }
-
-  private def merchant(c: JsObject): Merchant = {
-    val l: JsObject = logo(c)
-
-    Merchant(((c \ "merchant").as[JsObject] \ "name").as[String],
-      Logo((l \ "url").as[String]))
   }
 
 }

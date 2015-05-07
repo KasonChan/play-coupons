@@ -1,9 +1,10 @@
 package controllers
 
-import models.{Meta, User}
+import models.{SignupUser, Meta, User}
 import play.api.mvc.{AnyContent, Action, Controller}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * Created by kasonchan on 5/5/15.
@@ -46,6 +47,17 @@ object Users extends Controller {
         case None => Ok(views.html.login(None))
       }
     }
+  }
+
+  def signup: Action[AnyContent] = Action.async { request =>
+    // Get fullname, username and password from the form
+    val fullname = request.body.asFormUrlEncoded.get("fullname")(0)
+    val username = request.body.asFormUrlEncoded.get("email")(0)
+    val password = request.body.asFormUrlEncoded.get("password")(0)
+
+    val signupUser = SignupUser(fullname.toString, username.toString, password.toString)
+
+    Future.successful(Ok(signupUser.toString()))
   }
 
 }
