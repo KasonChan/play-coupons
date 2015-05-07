@@ -15,13 +15,18 @@ case class User(email: Option[String],
                 password: Option[String],
                 username: Option[String])
 
-case class Meta(error: Option[Boolean],
-                code: Option[Int],
-                user: Option[String])
+case class MetaUser(error: Option[Boolean],
+                    code: Option[Int],
+                    user: Option[String])
 
 case class SignupUser(fullname: String,
                       email: String,
                       password: String)
+
+case class Metas(error: Option[Boolean],
+                 code: Option[Int],
+                 email: Option[String],
+                 password: Option[String])
 
 object User extends Controller with HTTP {
 
@@ -66,12 +71,32 @@ object User extends Controller with HTTP {
   private def user(m: JsObject): Option[String] = (m \ "user").asOpt[String]
 
   /**
-   * Meta
+   * MetaUser
    * Retrieves meta data including error, code and user
    * @param m JsObject
    * @return Meta
    */
-  private def meta(m: JsObject): Meta = Meta(error(m), code(m), user(m))
+  private def metaUser(m: JsObject): MetaUser = MetaUser(error(m), code(m), user(m))
+
+  /**
+   * Password
+   * Retrieves password
+   * @param m JsObject
+   * @return Option[String]
+   */
+  private def password(m: JsObject): Option[String] =
+    (m \ "user-password-tooshort").asOpt[String]
+
+  /**
+   * Meta
+   * Retrieves meta data including error, code, email and password
+   * @param m JsObject
+   * @return Meta
+   */
+  private def metas(m: JsObject): Metas = Metas(error(m),
+    code(m),
+    email(m),
+    password(m))
 
   /**
    * Find
@@ -85,7 +110,7 @@ object User extends Controller with HTTP {
    */
   def find(url: String, user: User): Future[Product with Serializable] = {
     val apiFuture: Future[WSResponse] =
-      postRequest(url, user)
+      postRequestFind(url, user)
 
     apiFuture.map { response =>
 
@@ -100,7 +125,7 @@ object User extends Controller with HTTP {
       metaJsObject match {
 
         case Some(m) =>
-          meta(m)
+          metaUser(m)
         case None =>
           // Retrieve the users json array
           val usersJsArray: Option[JsArray] = (json \ "users").asOpt[JsArray]
@@ -116,6 +141,62 @@ object User extends Controller with HTTP {
                   val u = userJsObject.map { u =>
                     User(email(u),
                       user.password,
+                      username(u))
+                  }
+
+                  Some(u)
+                case None =>
+                  None
+              }
+            case None =>
+              None
+          }
+      }
+    }
+  }
+
+  /**
+   * Create
+   * Performs post request with url and signup user
+   * If the user is valid, it will return the information of the user
+   * If the user is invalid, it will return a meta datas
+   * Otherwise it will return none
+   * @param url String
+   * @param user SignupUser
+   * @return Future[Product with Serializable]
+   */
+  def create(url: String, user: SignupUser): Future[Product with Serializable] = {
+    val apiFuture: Future[WSResponse] =
+      postRequestCreate(url, user)
+
+    apiFuture.map { response =>
+
+      // Parse the response body to json
+      val json: JsValue = Json.parse(response.body)
+
+      // Retrieve meta json object
+      val metaJsObject: Option[JsObject] = (json \ "meta").asOpt[JsObject]
+
+      // If meta error is retrieved, return it
+      // Otherwise retrieve and return a user
+      metaJsObject match {
+        case Some(m) =>
+          metas(m)
+        case None =>
+          // Retrieve the users json array
+          val usersJsArray: Option[JsArray] = (json \ "users").asOpt[JsArray]
+
+          usersJsArray match {
+            case Some(uja: JsArray) =>
+
+              val usersJsObjects: Option[Seq[JsObject]] =
+                (json \ "users").asOpt[Seq[JsObject]]
+
+              usersJsObjects match {
+                case Some(userJsObject) =>
+                  val u = userJsObject.map { u =>
+                    User(email(u),
+                      Some(user.password),
                       username(u))
                   }
 

@@ -1,11 +1,11 @@
-@(error: Option[String])
+@(error: Seq[Option[String]])
 
 @main {
   <h1>Signup</h1>
 
-  @if(error) {
+  @for(e <- error) {
     <div>
-    @error
+    @e
     </div>
   }
 
