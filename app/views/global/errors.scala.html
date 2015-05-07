@@ -1,0 +1,11 @@
+@(throwable: Option[Throwable])
+
+@main {
+
+  @if(throwable) {
+    <div>
+      Internal server error: @throwable
+    </div>
+  }
+
+}

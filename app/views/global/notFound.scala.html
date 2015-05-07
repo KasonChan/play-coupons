@@ -1,0 +1,11 @@
+@(error: Option[String])
+
+@main {
+
+  @if(error) {
+    <div>
+      Page not found: @error
+    </div>
+  }
+
+}
