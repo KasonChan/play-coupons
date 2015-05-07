@@ -1,5 +1,24 @@
-@()
+@(error: Option[String])
 
-@main {
-  <h1>Login</h1>
-}
+  @main {
+    <h1>Login</h1>
+
+    @if(error) {
+      <div>
+      @error
+      </div>
+    }
+
+    <form method="post" id="signin" action="@routes.Users.signin">
+        <!-- Username -->
+      <input type="text" name="email" id="email"
+      placeholder="@Messages("login.email")" maxlength="35" required>
+
+        <!-- Password -->
+      <input type="password" name="password" id="password"
+      placeholder="@Messages("login.password")" maxlength="35" required>
+
+        <!-- Submit -->
+      <input type="submit" value="@Messages("login.submit")">
+    </form>
+  }

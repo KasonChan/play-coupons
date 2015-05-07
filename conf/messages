@@ -1,1 +1,9 @@
 application.name = Play Coupons
+
+login.email = Email
+login.password = Password
+login.submit = Login
+
+signup.email = Email
+signup.password = Password
+signup.submit = Login

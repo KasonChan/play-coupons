@@ -11,20 +11,30 @@ import scala.concurrent.Future
 /**
  * Created by kasonchan on 4/24/15.
  */
-case class Savings(percentOff: Option[Double], amountOff: Option[Double], types: Seq[String])
-
-case class PromoType(pt: String)
+case class Savings(percentOff: Option[Double],
+                   amountOff: Option[Double],
+                   types: Seq[String])
 
 case class Logo(url: String)
 
 case class Merchant(name: String, logo: Logo)
 
-case class Coupon(savings: Savings,
-                  promoType: PromoType,
-                  merchant: Merchant)
+case class Coupon(savings: Savings, merchant: Merchant)
 
 object Coupon extends HTTP {
 
+  /**
+   * Findall
+   *
+   * Performs get request with the parameter url
+   * Parses the response body
+   * Extract the coupons information
+   * If everything is valid, findall will return the sequence of coupon
+   * Otherwise it will return None
+   *
+   * @param url String
+   * @return Future[Option[Seq[Coupon]]]
+   */
   def findAll(url: String): Future[Option[Seq[Coupon]]] = {
 
     val apiFuture: Future[WSResponse] =
@@ -46,7 +56,6 @@ object Coupon extends HTTP {
                 val c = coupon.map { c =>
                   Coupon(
                     savings(c),
-                    promoType(c),
                     merchant(c))
                 }
 
@@ -64,21 +73,17 @@ object Coupon extends HTTP {
     }
   }
 
-  def savings(c: JsObject): Savings = {
+  private def savings(c: JsObject): Savings = {
     Savings(((c \ "savings").as[JsObject] \ "amountOff").asOpt[Double],
       ((c \ "savings").as[JsObject] \ "percentOff").asOpt[Double],
       ((c \ "savings").as[JsObject] \ "types").as[Seq[String]])
   }
 
-  def promoType(c: JsObject): PromoType = {
-    PromoType((c \ "promoType").as[String])
-  }
-
-  def logo(c: JsObject): JsObject = {
+  private def logo(c: JsObject): JsObject = {
     ((c \ "merchant").as[JsObject] \ "logo").as[JsObject]
   }
 
-  def merchant(c: JsObject): Merchant = {
+  private def merchant(c: JsObject): Merchant = {
     val l: JsObject = logo(c)
 
     Merchant(((c \ "merchant").as[JsObject] \ "name").as[String],

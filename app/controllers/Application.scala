@@ -7,12 +7,26 @@ import scala.concurrent.Future
 
 object Application extends Controller {
 
-  def login = Action.async {
+  /**
+   * Login
+   *
+   * Shows the login page
+   *
+   * @return Action[AnyContent]
+   */
+  def login: Action[AnyContent] = Action.async {
     Logger.info("Login")
-    Future.successful(Ok("Login"))
+    Future.successful(Ok(views.html.login(None)))
   }
 
-  def signup = Action.async {
+  /**
+   * Signup
+   *
+   * Shows the sign up page
+   *
+   * @return Action[AnyContent]
+   */
+  def signup: Action[AnyContent] = Action.async {
     Logger.info("Signup")
     Future.successful(Ok(views.html.signup()))
   }
