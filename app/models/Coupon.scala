@@ -15,9 +15,7 @@ case class Savings(percentOff: Option[Double],
                    amountOff: Option[Double],
                    types: Seq[String])
 
-case class Logo(url: String)
-
-case class Merchant(name: String, logo: Logo)
+case class Merchant(name: String)
 
 case class Coupon(savings: Savings, merchant: Merchant)
 
@@ -36,26 +34,13 @@ object Coupon extends HTTP {
   }
 
   /**
-   * Logo
-   * Retrieves logo
-   * @param c JsObject
-   * @return JsObject
-   */
-  private def logo(c: JsObject): JsObject = {
-    ((c \ "merchant").as[JsObject] \ "logo").as[JsObject]
-  }
-
-  /**
    * Merchant
    * Retrieves merchant name and logo
    * @param c JsObject
    * @return Merchant
    */
   private def merchant(c: JsObject): Merchant = {
-    val l: JsObject = logo(c)
-
-    Merchant(((c \ "merchant").as[JsObject] \ "name").as[String],
-      Logo((l \ "url").as[String]))
+    Merchant(((c \ "merchant").as[JsObject] \ "name").as[String])
   }
 
   /**

@@ -1,6 +1,7 @@
 package controllers
 
-import models.Coupon
+import models.{Coupon, User}
+import play.api.Logger
 import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
