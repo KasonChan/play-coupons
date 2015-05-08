@@ -1,4 +1,4 @@
-@(error: Option[String])
+@(error: Option[String])(user: User)
 
   @main {
     <h1>Login</h1>
@@ -13,11 +13,13 @@
 
         <!-- Email -->
       <input type="text" name="email" id="email"
-      placeholder="@Messages("login.email")" maxlength="35" required>
+      placeholder="@Messages("login.email")"
+      value="@user.email" maxlength="35" required>
 
         <!-- Password -->
       <input type="password" name="password" id="password"
-      placeholder="@Messages("login.password")" maxlength="35" required>
+      placeholder="@Messages("login.password")"
+      value="@user.password" maxlength="35" required>
 
         <!-- Submit -->
       <input type="submit" value="@Messages("login.submit")">

@@ -6,6 +6,8 @@
 GET         /                     controllers.Application.login
 POST        /                     controllers.Users.signin
 
+GET         /                     controllers.Application.logout
+
 # Coupons page
 GET         /coupons              controllers.Coupons.list
 

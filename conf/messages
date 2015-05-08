@@ -8,3 +8,5 @@ signup.fullname = Fullname
 signup.email = Email
 signup.password = Password
 signup.submit = Signup
+
+logout.logout = Logout

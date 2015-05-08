@@ -28,11 +28,18 @@
 
   <body>
 
+      <!-- Reactive ribbon -->
+    <a href="http://www.reactivemanifesto.org/">
+      <img style="border : 0 ; position : fixed ; right : 0 ; top : 0 ; z-index : 9000"
+      src="//d379ifj7s9wntv.cloudfront.net/reactivemanifesto/images/ribbons/we-are-reactive-blue-right.png">
+    </a>
+
       <!-- Toolbar / appbar-->
     <header class="toolbar title">
       <a href="/">
         <img class="icon" src="@routes.Assets.at("images/favicon.ico")">
       </a>
+
     </header>
 
       <!-- Bottom sheet -->
@@ -41,6 +48,10 @@
         <!-- Content -->
       @content
     </div>
+
+    <a href="@routes.Application.logout()">
+      <button>@Messages("logout.logout")</button>
+    </a>
   </body>
 
 </html>

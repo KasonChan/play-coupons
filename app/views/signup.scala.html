@@ -1,4 +1,4 @@
-@(error: Seq[Option[String]])
+@(error: Seq[Option[String]])(user: SignupUser)
 
 @main {
   <h1>Signup</h1>
@@ -13,15 +13,18 @@
 
       <!-- Fullname -->
     <input type="text" name="fullname" id="fullname"
-    placeholder="@Messages("signup.fullname")" maxlength="35" required>
+    placeholder="@Messages("signup.fullname")"
+    value="@user.fullname" maxlength="35" required>
 
       <!-- Username -->
     <input type="text" name="email" id="email"
-    placeholder="@Messages("signup.email")" maxlength="35" required>
+    placeholder="@Messages("signup.email")"
+    value="@user.email" maxlength="35" required>
 
       <!-- Password -->
     <input type="password" name="password" id="password"
-    placeholder="@Messages("signup.password")" maxlength="35" required>
+    placeholder="@Messages("signup.password")"
+    value="@user.password" maxlength="35" required>
 
       <!-- Submit -->
     <input type="submit" value="@Messages("signup.submit")">

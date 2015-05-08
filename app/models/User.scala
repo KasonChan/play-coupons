@@ -40,11 +40,18 @@ object User extends Controller with HTTP {
 
   /**
    * Email
-   * Retrieves email
+   * Retrieves email error
    * @param u JsObject
    * @return Option[String]
    */
-  private def email(u: JsObject): Option[String] = (u \ "email").asOpt[String]
+  private def email(u: JsObject): Option[String] = {
+    val email = (u \ "email").asOpt[String]
+
+    email match {
+      case Some(e) => Some(e.capitalize)
+      case None => None
+    }
+  }
 
   /**
    * Error
@@ -64,11 +71,18 @@ object User extends Controller with HTTP {
 
   /**
    * User
-   * Retrieves user
+   * Retrieves user error
    * @param m JsObject
    * @return Option[String]
    */
-  private def user(m: JsObject): Option[String] = (m \ "user").asOpt[String]
+  private def user(m: JsObject): Option[String] = {
+    val user = (m \ "user").asOpt[String]
+
+    user match {
+      case Some(u) => Some(u.capitalize)
+      case None => None
+    }
+  }
 
   /**
    * MetaUser
@@ -80,12 +94,18 @@ object User extends Controller with HTTP {
 
   /**
    * Password
-   * Retrieves password
+   * Retrieves password error
    * @param m JsObject
    * @return Option[String]
    */
-  private def password(m: JsObject): Option[String] =
-    (m \ "user-password-tooshort").asOpt[String]
+  private def password(m: JsObject): Option[String] = {
+    val password = (m \ "user-password-tooshort").asOpt[String]
+
+    password match {
+      case Some(p) => Some(p.capitalize)
+      case None => None
+    }
+  }
 
   /**
    * Meta
@@ -139,7 +159,7 @@ object User extends Controller with HTTP {
               usersJsObjects match {
                 case Some(userJsObject) =>
                   val u = userJsObject.map { u =>
-                    User(email(u),
+                    User(user.email,
                       user.password,
                       username(u))
                   }
@@ -195,7 +215,7 @@ object User extends Controller with HTTP {
               usersJsObjects match {
                 case Some(userJsObject) =>
                   val u = userJsObject.map { u =>
-                    User(email(u),
+                    User(Some(user.email),
                       Some(user.password),
                       username(u))
                   }
