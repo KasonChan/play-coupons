@@ -40,6 +40,10 @@
         <img class="icon" src="@routes.Assets.at("images/favicon.ico")">
       </a>
 
+        <!-- Logout -->
+      <form method="post" action="@routes.Users.logout()">
+        <input type="submit" value="@Messages("logout.logout")">
+      </form>
     </header>
 
       <!-- Bottom sheet -->
@@ -49,9 +53,6 @@
       @content
     </div>
 
-    <a href="@routes.Application.logout()">
-      <button>@Messages("logout.logout")</button>
-    </a>
-  </body>
 
+  </body>
 </html>

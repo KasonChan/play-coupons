@@ -5,6 +5,7 @@ import play.Logger
 import play.api.mvc.{Action, AnyContent, Controller}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * Created by kasonchan on 5/5/15.
@@ -61,7 +62,7 @@ object Users extends Controller {
   }
 
   /**
-   * Signup
+   * Create
    * Gets fullname, email and password from the form
    * Creates signup user with the form information
    * Post request to the url with the user
@@ -69,7 +70,7 @@ object Users extends Controller {
    * Otherwise shows the signup page with new session
    * @return Action[AnyContent]
    */
-  def signup: Action[AnyContent] = Action.async { request =>
+  def create: Action[AnyContent] = Action.async { request =>
     // Get fullname, email and password from the form
     val fullname: String = request.body.asFormUrlEncoded.get("fullname")(0)
     val email: String = request.body.asFormUrlEncoded.get("email")(0)
@@ -96,6 +97,31 @@ object Users extends Controller {
           Logger.error("Users.signup - new session - internal server error")
           Ok(views.html.signup(Seq(None))(signupUser)).withNewSession
       }
+    }
+  }
+
+  /**
+   * Signup
+   * Creates a new session and shows signup page
+   * @return Action[AnyContent]
+   */
+  def signup: Action[AnyContent] = Action.async {
+    Logger.info("Signup")
+    Future.successful(Ok(views.html.signup(Seq(None))(SignupUser("", "", ""))).withNewSession)
+  }
+
+  /**
+   * Logout
+   * Logs the user out, creates a new session and shows the login page
+   * @return Action[AnyContent]
+   */
+  def logout: Action[AnyContent] = Action { request =>
+    request.session.get("connected").map { email =>
+      Logger.info("Application.logout - logged out from " + email)
+      Ok(views.html.login(None)(User(None, None, None))).withNewSession
+    }.getOrElse {
+      Logger.info("Application.logout - logged out")
+      Ok(views.html.login(None)(User(None, None, None))).withNewSession
     }
   }
 
