@@ -4,6 +4,8 @@ import models.User
 import play.Logger
 import play.api.mvc.{Action, AnyContent, Controller}
 
+import scala.concurrent.Future
+
 object Application extends Controller {
 
   /**
@@ -13,13 +15,14 @@ object Application extends Controller {
    * Shows the login page
    * @return Action[AnyContent]
    */
-  def index: Action[AnyContent] = Action { request =>
+  def index: Action[AnyContent] = Action.async { request =>
     request.session.get("connected").map { email =>
       Logger.info("Application.login - logged in as " + email)
-      Redirect("/coupons")
+      Future.successful(Redirect("/coupons"))
     }.getOrElse {
       Logger.info("Application.login - new session")
-      Ok(views.html.login(None)(User(None, None, None))).withNewSession
+      Future.successful(Ok(views.html.login(None)(User(None, None, None)))
+        .withNewSession)
     }
   }
 

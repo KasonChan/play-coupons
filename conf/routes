@@ -3,18 +3,21 @@
 # ~~~~
 
 # Home login page
-GET         /                     controllers.Application.index
-POST        /                     controllers.Users.signin
+GET         /                            controllers.Application.index
+POST        /                            controllers.Users.signin
 
-POST        /logout               controllers.Users.logout
+POST        /logout                      controllers.Users.logout
 
 # Coupons page
-GET         /coupons              controllers.Coupons.list
+GET         /coupons                     controllers.Coupons.list
+
+# Personalized coupons page
+GET         /personalized-coupons        controllers.Coupons.personalizedList
 
 # Signup page
-GET         /signup               controllers.Users.signup
-POST        /signup               controllers.Users.create
+GET         /signup                      controllers.Users.signup
+POST        /signup                      controllers.Users.create
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file         controllers.Assets.at(path="/public", file)
-GET         /webjars/*file        controllers.WebJarAssets.at(file)
+GET         /assets/*file                controllers.Assets.at(path="/public", file)
+GET         /webjars/*file               controllers.WebJarAssets.at(file)

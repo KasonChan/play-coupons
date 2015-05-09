@@ -51,7 +51,8 @@ object Users extends Controller {
         case Some(u) =>
           Logger.info("Users.signin - logged in as " + email)
           Redirect("/coupons").withSession(
-            "connected" -> email
+            "connected" -> email,
+            "password" -> password
           )
         case None =>
           Logger.error("Users.signin - new session - internal server error")
@@ -91,7 +92,8 @@ object Users extends Controller {
         case Some(u) =>
           Logger.info("Users.signup - Signed up as " + email)
           Redirect("/coupons").withSession(
-            "connected" -> email
+            "connected" -> email,
+            "password" -> password
           )
         case None =>
           Logger.error("Users.signup - new session - internal server error")

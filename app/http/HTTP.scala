@@ -20,6 +20,16 @@ trait HTTP {
   def getRequest(url: String): Future[WSResponse] = WS.url(url).get()
 
   /**
+   * Get request with auth, url and user
+   * @param url String
+   * @param user User
+   * @return Future[WSResponse]
+   */
+  def getRequestPersonalized(url: String, user: User): Future[WSResponse] = {
+    WS.url(url).withHeaders("username" -> user.email.getOrElse("")).get()
+  }
+
+  /**
    * Post request with url and user for finding if the user is valid
    * @param url String
    * @param user User
@@ -49,4 +59,5 @@ trait HTTP {
     // Post request
     WS.url(url).post(createUser)
   }
+
 }
