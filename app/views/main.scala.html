@@ -46,12 +46,12 @@
 
       @if(username) {
           &#64;@username
-        }
 
-      <!-- Logout -->
-      <form method="post" action="@routes.Users.logout()">
-        <input type="submit" value="@Messages("logout.logout")">
-      </form>
+          <!-- Logout -->
+        <form method="post" action="@routes.Users.logout()">
+          <input class="button-incline" type="submit" value="@Messages("logout.logout")">
+        </form>
+      }
     </header>
 
       <!-- Bottom sheet -->
@@ -60,7 +60,6 @@
         <!-- Content -->
       @content
     </div>
-
 
   </body>
 </html>

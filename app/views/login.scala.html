@@ -14,12 +14,12 @@
         <!-- Email -->
       <input type="text" name="email" id="email"
       placeholder="@Messages("login.email")"
-      value="@user.email" maxlength="35" required>
+      value="@user.email" maxlength="35" required> <br/>
 
         <!-- Password -->
       <input type="password" name="password" id="password"
       placeholder="@Messages("login.password")"
-      value="@user.password" maxlength="35" required>
+      value="@user.password" maxlength="35" required> <br/>
 
         <!-- Submit -->
       <input type="submit" value="@Messages("login.submit")">
@@ -28,6 +28,6 @@
 
     <!-- Sign up -->
     <a href="@routes.Users.signup()">
-      <input type="button" value="@Messages("signup.submit")">
+      <input type="submit" value="@Messages("signup.submit")">
     </a>
   }

@@ -1,4 +1,4 @@
-# PlayCoupons (Under Construction)#
+# PlayCoupons #
 
 An web application covers some of the basic use cases for the coupon 
 product, BluePromoCode, and makes use of their RESTful API endpoints.
@@ -28,11 +28,6 @@ The [design](design) folder for guidance.
   - Resource: `http://api.bluepromocode.com/v2/users/register`
   - Method: `POST`
   - JSON Encoded Parameters: `fullName`, `email`, `password`
-
-4. Bonus - Personalized Coupons:
-  - Show personalized coupons from our REST API (requires authentication)
-  - Resource: `http://api.bluepromocode.com/v2/users/self/promotions/suggestions`
-  - Method: `GET`
 
 ### Developing ###
 
