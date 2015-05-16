@@ -2,7 +2,10 @@ package controllers
 
 import models._
 import play.Logger
-import play.api.mvc.{Action, AnyContent, Controller}
+import play.api.Play.current
+import play.api.cache.Cache
+import play.api.libs.ws.WSResponse
+import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -48,12 +51,18 @@ object Users extends Controller {
           Logger.info("Users.signin - new session - " + m.user.getOrElse(""))
           Ok(views.html.login(m.user)
             (User(Some(email), Some(password), None))).withNewSession
-        case Some(u) =>
-          Logger.info("Users.signin - logged in as " + email)
+        case Some((u: Seq[User], r: WSResponse)) => {
+          val username = u(0).username.getOrElse("")
+
+          println(r.allHeaders.toString)
+          Cache.set("headers", r.allHeaders)
+          Logger.info("Users.signin - logged in as " + username)
+
           Redirect("/coupons").withSession(
-            "connected" -> email,
-            "password" -> password
-          )
+            "email" -> email,
+            "password" -> password,
+            "username" -> username)
+        }
         case None =>
           Logger.error("Users.signin - new session - internal server error")
           Ok(views.html.login(None)
@@ -89,12 +98,18 @@ object Users extends Controller {
             ms.password)
           val error = Seq(ms.email, ms.password)
           Ok(views.html.signup(error)(signupUser)).withNewSession
-        case Some(u) =>
+        case Some((u: Seq[User], r: WSResponse)) => {
+          val username = u(0).username.getOrElse("")
+
+          println(r.allHeaders.toString)
+          Cache.set("headers", r.allHeaders)
           Logger.info("Users.signup - Signed up as " + email)
+
           Redirect("/coupons").withSession(
-            "connected" -> email,
-            "password" -> password
-          )
+            "email" -> email,
+            "password" -> password,
+            "username" -> username)
+        }
         case None =>
           Logger.error("Users.signup - new session - internal server error")
           Ok(views.html.signup(Seq(None))(signupUser)).withNewSession
@@ -118,11 +133,11 @@ object Users extends Controller {
    * @return Action[AnyContent]
    */
   def logout: Action[AnyContent] = Action { request =>
-    request.session.get("connected").map { email =>
-      Logger.info("Application.logout - logged out from " + email)
+    request.session.get("username").map { username =>
+      Logger.info("Application.logout - logged out from " + username)
       Ok(views.html.login(None)(User(None, None, None))).withNewSession
     }.getOrElse {
-      Logger.info("Application.logout - logged out")
+      Logger.info("Application.logout")
       Ok(views.html.login(None)(User(None, None, None))).withNewSession
     }
   }

@@ -16,8 +16,8 @@ object Application extends Controller {
    * @return Action[AnyContent]
    */
   def index: Action[AnyContent] = Action.async { request =>
-    request.session.get("connected").map { email =>
-      Logger.info("Application.login - logged in as " + email)
+    request.session.get("username").map { username =>
+      Logger.info("Application.login - logged in as " + username)
       Future.successful(Redirect("/coupons"))
     }.getOrElse {
       Logger.info("Application.login - new session")

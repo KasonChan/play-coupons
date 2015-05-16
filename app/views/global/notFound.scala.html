@@ -1,6 +1,6 @@
-@(error: Option[String])
+@(username: Option[String])(error: Option[String])
 
-@main {
+@main(username) {
 
   @if(error) {
     <div>

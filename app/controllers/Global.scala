@@ -1,5 +1,6 @@
 package controllers
 
+import play.Logger
 import play.api._
 import play.api.mvc.Results._
 import play.api.mvc._
@@ -34,8 +35,15 @@ object Global extends GlobalSettings {
    * @param request RequestHeader
    * @return Future[SimpleResult]
    */
-  override def onHandlerNotFound(request: RequestHeader) =
-    Future.successful(NotFound(views.html.global.notFound(Some(request.path))))
+  override def onHandlerNotFound(request: RequestHeader) = {
+    request.session.get("username").map { username =>
+      Logger.info("Global.onHandlerNotFound - " + username)
+      Future.successful(NotFound(views.html.global.notFound(Some(username))(Some(request.path))))
+    }.getOrElse {
+      Logger.info("Global.onHandlerNotFound - new session")
+      Future.successful(NotFound(views.html.global.notFound(None)(Some(request.path))).withNewSession)
+    }
+  }
 
   /**
    * On Error
@@ -44,7 +52,14 @@ object Global extends GlobalSettings {
    * @param throwable Throwable
    * @return Future[SimpleResult]
    */
-  override def onError(request: RequestHeader, throwable: Throwable) =
-    Future.successful(InternalServerError(views.html.global.errors(Some(throwable))))
+  override def onError(request: RequestHeader, throwable: Throwable) = {
+    request.session.get("username").map { username =>
+      Logger.info("Global.onError - " + username)
+      Future.successful(InternalServerError(views.html.global.errors(Some(username))(Some(throwable))))
+    }.getOrElse {
+      Logger.info("Global.onError - new session")
+      Future.successful(InternalServerError(views.html.global.errors(None)(Some(throwable))).withNewSession)
+    }
+  }
 
 }

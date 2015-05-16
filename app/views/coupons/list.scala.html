@@ -1,6 +1,6 @@
-@(coupons: Seq[Coupon])
+@(username: Option[String])(coupons: Seq[Coupon])
 
-@main {
+@main(username) {
 
   @for(coupon <- coupons) {
     <div class="card">

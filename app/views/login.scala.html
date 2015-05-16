@@ -1,6 +1,6 @@
 @(error: Option[String])(user: User)
 
-  @main {
+  @main(user.username) {
     <h1>Login</h1>
 
     @if(error) {

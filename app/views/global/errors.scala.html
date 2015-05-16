@@ -1,6 +1,6 @@
-@(throwable: Option[Throwable])
+@(username: Option[String])(throwable: Option[Throwable])
 
-@main {
+@main(username) {
 
   @if(throwable) {
     <div>

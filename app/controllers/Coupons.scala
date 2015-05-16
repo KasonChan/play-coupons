@@ -20,14 +20,27 @@ object Coupons extends Controller {
    * Otherwise, none will be returned and error message will be shown
    * @return Action[AnyContent]
    */
-  def list: Action[AnyContent] = Action.async {
+  def list: Action[AnyContent] = Action.async { request =>
     val coupons: Future[Option[Seq[Coupon]]] =
       Coupon.findAll("http://api.bluepromocode.com/v2/promotions")
 
-    coupons.map {
-      cs => cs match {
-        case Some(s) => Ok(views.html.coupons.list(s))
-        case None => Ok(views.html.coupons.list(Seq()))
+    request.session.get("username").map { username =>
+      Logger.info("Coupons.list - " + username)
+
+      coupons.map {
+        cs => cs match {
+          case Some(s) => Ok(views.html.coupons.list(Some(username))(s))
+          case None => Ok(views.html.coupons.list(Some(username))(Seq()))
+        }
+      }
+    }.getOrElse {
+      Logger.info("Coupons.list - new session")
+
+      coupons.map {
+        cs => cs match {
+          case Some(s) => Ok(views.html.coupons.list(None)(s))
+          case None => Ok(views.html.coupons.list(None)(Seq()))
+        }
       }
     }
   }
@@ -41,9 +54,9 @@ object Coupons extends Controller {
    * @return Action[AnyContent]
    */
   def personalizedList: Action[AnyContent] = Action.async { request =>
-    request.session.get("connected").map { email =>
+    request.session.get("username").map { username =>
 
-      val e: Option[String] = request.session.get("connected")
+      val e: Option[String] = request.session.get("email")
       val p: Option[String] = request.session.get("password")
 
       val coupons: Future[Option[Seq[Coupon]]] =
@@ -53,18 +66,17 @@ object Coupons extends Controller {
       coupons.map {
         cs => cs match {
           case Some(s) =>
-            Logger.info("Coupons.personalizedList - " + email)
-            Ok(views.html.coupons.list(s))
+            Logger.info("Coupons.personalizedList - " + username)
+            Ok(views.html.coupons.list(Some(username))(s))
           case None =>
-            Logger.info("Coupons.personalizedList - " + email)
-            Ok(views.html.coupons.list(Seq()))
+            Logger.info("Coupons.personalizedList - " + username)
+            Ok(views.html.coupons.list(Some(username))(Seq()))
         }
       }
     }.getOrElse {
       Logger.info("Coupons.personalizedList - new session")
       Future.successful(Ok(views.html.login(None)(User(None, None, None)))
         .withNewSession)
-
     }
   }
 

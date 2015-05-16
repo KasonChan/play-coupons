@@ -1,6 +1,6 @@
 @(error: Seq[Option[String]])(user: SignupUser)
 
-@main {
+@main(None) {
   <h1>Signup</h1>
 
   @for(e <- error) {

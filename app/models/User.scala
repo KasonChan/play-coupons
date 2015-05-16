@@ -163,8 +163,7 @@ object User extends Controller with HTTP {
                       user.password,
                       username(u))
                   }
-
-                  Some(u)
+                  Some((u, response))
                 case None =>
                   None
               }
@@ -219,8 +218,7 @@ object User extends Controller with HTTP {
                       Some(user.password),
                       username(u))
                   }
-
-                  Some(u)
+                  Some((u, response))
                 case None =>
                   None
               }

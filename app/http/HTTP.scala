@@ -1,10 +1,14 @@
 package models.http
 
+import java.nio.Buffer
+
 import models.{SignupUser, User}
 import play.api.Play.current
+import play.api.cache.Cache
 import play.api.libs.json.Json
-import play.api.libs.ws.{WS, WSResponse}
+import play.api.libs.ws.{WSAuthScheme, WS, WSResponse}
 
+import scala.collection.mutable
 import scala.concurrent.Future
 
 /**
@@ -26,7 +30,10 @@ trait HTTP {
    * @return Future[WSResponse]
    */
   def getRequestPersonalized(url: String, user: User): Future[WSResponse] = {
-    WS.url(url).withHeaders("username" -> user.email.getOrElse("")).get()
+    WS.url(url).withHeaders("email" -> user.email.getOrElse(""),
+      "password" -> user.password.getOrElse("")).get()
+
+    WS.url(url).withAuth(user.email.getOrElse(""), user.password.getOrElse(""), WSAuthScheme.DIGEST).get()
   }
 
   /**

@@ -1,4 +1,4 @@
-@(content: Html)
+@(username: Option[String])(content: Html)
 
 <!DOCTYPE html>
 
@@ -8,7 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
       <!-- Title -->
-    <title>@Messages("application.name")</title>
+    @if(username) {
+      <title>@username | @Messages("application.name")</title>
+    } else {
+      <title>@Messages("application.name")</title>
+    }
 
       <!-- Icons -->
     <link rel="shortcut icon" type="image/ico"
@@ -24,14 +28,14 @@
     <script type='text/javascript'
     src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
 
-  </head>
+    </head>
 
   <body>
 
       <!-- Reactive ribbon -->
     <a href="http://www.reactivemanifesto.org/">
       <img style="border : 0 ; position : fixed ; right : 0 ; top : 0 ; z-index : 9000"
-      src="//d379ifj7s9wntv.cloudfront.net/reactivemanifesto/images/ribbons/we-are-reactive-blue-right.png">
+      src="//d379ifj7s9wntv.cloudfront.net/reactivemanifesto/images/ribbons/we-are-reactive-white-right.png">
     </a>
 
       <!-- Toolbar / appbar-->
@@ -40,7 +44,11 @@
         <img class="icon" src="@routes.Assets.at("images/favicon.ico")">
       </a>
 
-        <!-- Logout -->
+      @if(username) {
+          &#64;@username
+        }
+
+      <!-- Logout -->
       <form method="post" action="@routes.Users.logout()">
         <input type="submit" value="@Messages("logout.logout")">
       </form>
